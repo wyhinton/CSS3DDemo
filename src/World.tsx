@@ -3,6 +3,7 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { Group, LineCurve3, TextureLoader, TubeGeometry, Vector3 } from "three";
 import DivBlock from "./DivBlock";
+import matCap from "./matCap.png";
 
 interface LineProps {
   points: [Vector3, Vector3];
@@ -101,10 +102,7 @@ const World = ({ counter }: { counter: number }): JSX.Element => {
     setLines(linescopy);
   });
 
-  const matcapTexture = useLoader(
-    TextureLoader,
-    `${process.env.PUBLIC_URL}/matCap.png`
-  );
+  const matcapTexture = useLoader(TextureLoader, matCap);
 
   return (
     <>
