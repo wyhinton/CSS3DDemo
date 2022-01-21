@@ -87,18 +87,17 @@ const World = ({ counter }: { counter: number }): JSX.Element => {
   return (
     <>
       <group>
-        <gridHelper />
+        <gridHelper args={[20]} />
         <Connector points={lines[0]} />
         <Connector points={lines[1]} />
         <Connector points={lines[2]} />
         <DivBlock text={"1"} color="red" ref={div1} />
         <DivBlock text={"2"} color="green" ref={div2} />
         <DivBlock text={"3"} color="blue" ref={div3} />
-        <Html transform>
-          <div
-            style={{ width: 1000, height: 200, backgroundColor: "blue" }}
-          ></div>
-        </Html>
+        <mesh>
+          <sphereBufferGeometry args={[5.7, 30, 30]} attach="geometry" />
+          <meshBasicMaterial color={0xfff1ef} attach="material" />
+        </mesh>
       </group>
     </>
   );
