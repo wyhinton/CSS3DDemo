@@ -1,9 +1,26 @@
-import { Html } from "@react-three/drei";
 import { useSpring } from "framer-motion";
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { useFrame } from "react-three-fiber";
-import { Group, LineCurve3, TubeGeometry, Vector3 } from "three";
+import { useFrame, useLoader } from "@react-three/fiber";
+import { Group, LineCurve3, TextureLoader, TubeGeometry, Vector3 } from "three";
 import DivBlock from "./DivBlock";
+
+interface LineProps {
+  points: [Vector3, Vector3];
+}
+
+const Connector = forwardRef<TubeGeometry, LineProps>(function Connector(
+  { points },
+  forwardRef
+) {
+  const curve = new LineCurve3(points[0], points[1]);
+
+  return (
+    <mesh>
+      <tubeGeometry args={[curve, undefined, 0.1]} ref={forwardRef} />
+      <meshBasicMaterial color={"white"} />
+    </mesh>
+  );
+});
 
 const World = ({ counter }: { counter: number }): JSX.Element => {
   const div1 = useRef<Group>(null);
@@ -84,6 +101,11 @@ const World = ({ counter }: { counter: number }): JSX.Element => {
     setLines(linescopy);
   });
 
+  const matcapTexture = useLoader(
+    TextureLoader,
+    `${process.env.PUBLIC_URL}/matCap.png`
+  );
+
   return (
     <>
       <group>
@@ -96,29 +118,11 @@ const World = ({ counter }: { counter: number }): JSX.Element => {
         <DivBlock text={"3"} color="blue" ref={div3} />
         <mesh>
           <sphereBufferGeometry args={[5.7, 30, 30]} attach="geometry" />
-          <meshBasicMaterial color={0xfff1ef} attach="material" />
+          <meshMatcapMaterial matcap={matcapTexture} />
         </mesh>
       </group>
     </>
   );
 };
-
-interface LineProps {
-  points: [Vector3, Vector3];
-}
-
-const Connector = forwardRef<TubeGeometry, LineProps>(function Connector(
-  { points },
-  forwardRef
-) {
-  const curve = new LineCurve3(points[0], points[1]);
-
-  return (
-    <mesh>
-      <tubeGeometry args={[curve, undefined, 0.1]} ref={forwardRef} />
-      <meshBasicMaterial color={"red"} />
-    </mesh>
-  );
-});
 
 export default World;

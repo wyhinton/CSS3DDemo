@@ -9,19 +9,6 @@ interface DivBlockProps extends GroupProps {
   color: string;
 }
 
-const DivBlock = forwardRef<Group, DivBlockProps>(function DivBlock(
-  { color, text }: { color: string; text: string },
-  forwardRef
-) {
-  return (
-    <group ref={forwardRef}>
-      <Html transform position={[0, 0, 0]}>
-        <Text color={color}>{text}</Text>
-      </Html>
-    </group>
-  );
-});
-
 const Text = ({
   color,
   children,
@@ -45,6 +32,7 @@ const Text = ({
         textAlign: "left",
         flexDirection: "column",
         padding: "1em",
+        opacity: 0.9,
       }}
       whileHover={{
         backgroundColor: "rgb(0, 255, 0)",
@@ -64,5 +52,18 @@ const Text = ({
     </motion.div>
   );
 };
+
+const DivBlock = forwardRef<Group, DivBlockProps>(function DivBlock(
+  { color, text }: { color: string; text: string },
+  forwardRef
+) {
+  return (
+    <group ref={forwardRef}>
+      <Html transform position={[0, 0, 0]}>
+        <Text color={color}>{text}</Text>
+      </Html>
+    </group>
+  );
+});
 
 export default DivBlock;
